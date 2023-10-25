@@ -36,10 +36,9 @@
 
         <div class="flex items-center justify-between  mt-4">
             <div>
-                <button
-                    class="inline-flex items-center px-4 py-2 bg-green-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
-                    <a href="{{ route('register') }}">Register</a>
-                </button>
+                <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 bg-green-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                    Register
+                </a>
             </div>
             <div>
                 @if (Route::has('password.request'))

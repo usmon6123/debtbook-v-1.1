@@ -12,4 +12,11 @@ class DebtListController extends Controller
         $debtList =  DebtList::where('debtor_id',$id)->latest()->paginate(15);
         return view('debt-list')->with('debtList',$debtList);
     }
+    public function index(){
+        return view('debtList.create');
+    }
+
+    public function store(Request $request){
+      echo $request->post('select');
+    }
 }

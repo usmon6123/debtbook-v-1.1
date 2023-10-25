@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
     Route::get('/search', [MainController::class, 'search'])->name('search');
     Route::get('/debt-list/{id}',[DebtListController::class,'getId'])->name('debt-list');
-
+    Route::resource('/debtbook',DebtListController::class);
 });
 
 require __DIR__ . '/auth.php';
