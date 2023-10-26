@@ -23,7 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [MainController::class, 'main'])->name('main');
     Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
     Route::get('/search', [MainController::class, 'search'])->name('search');
-    Route::get('/debt-list/{id}',[DebtListController::class,'getId'])->name('debt-list');
+    Route::get('/debt-list/{id}',[DebtListController::class,'getId'])->name('debt-list.getId');
+    Route::post('/debt-list',[DebtListController::class,'createForm'])->name('debt-list.create-form');
     Route::resource('/debtbook',DebtListController::class);
 });
 

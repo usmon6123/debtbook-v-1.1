@@ -8,7 +8,7 @@
                      alt=""/>
             </div>
             {{--            <div class="h-8 w-8 rounded-full bg-slate-400 bg-[url('https://i.pravatar.cc/32')]"></div>--}}
-            <a href="{{route('debt-list',['id'=>$id])}}">
+            <a href="{{route('debt-list.getId',['id'=>$id])}}">
                 <div class="ml-3">
                     <p class="text-gray-900 whitespace-no-wrap">
                         {{$name}}

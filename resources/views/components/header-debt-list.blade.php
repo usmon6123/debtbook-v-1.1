@@ -6,14 +6,9 @@
         </div>
         <div class="flex items-center justify-between">
             <div class="lg:ml-40 ml-10 space-x-8">
-                <button
-                    class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New
-                    Report
-                </button>
-                <button
-                    class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                    Create
-                </button>
+
+               {{$botton}}
+
             </div>
         </div>
     </div>
@@ -31,10 +26,10 @@
                             class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Summa
                         </th>
-{{--                        <th--}}
-{{--                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">--}}
-{{--                            status--}}
-{{--                        </th>--}}
+                        {{--                        <th--}}
+                        {{--                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">--}}
+                        {{--                            status--}}
+                        {{--                        </th>--}}
                         <th
                             class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Sotuvchi

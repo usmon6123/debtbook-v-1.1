@@ -24,8 +24,8 @@ return new class extends Migration
             $table->unsignedBigInteger('seller_id');
             $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('description')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

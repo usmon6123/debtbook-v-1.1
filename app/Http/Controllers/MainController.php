@@ -17,14 +17,14 @@ class MainController extends Controller
         $_SESSION['search'] = 'no';
         session_destroy();
 
-        $debtors = User::paginate(12);
+        $debtors = User::orderBy('updated_at', 'desc')->paginate(12);
         return redirect('dashboard')->with('debtors', $debtors);
     }
 
     public function dashboard()
     {
         return view('dashboard')->with([
-            'debtors' => User::where('role_id', 2)->latest()->paginate(10),
+            'debtors' => User::where('role_id', 2)->orderBy('updated_at', 'desc')->paginate(10),
         ]);
     }
 
@@ -44,4 +44,5 @@ class MainController extends Controller
             'debtors' => $debtors,
         ]);
     }
+
 }
