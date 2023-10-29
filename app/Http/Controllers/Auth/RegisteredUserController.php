@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'email' => $request->email,
             'role_id' => $request->role_id??2,
-            'phone_number'=>'23456789',
+            'phone_number'=>'+998'.rand(100000000,999999999),
         ]);
 
         event(new Registered($user));

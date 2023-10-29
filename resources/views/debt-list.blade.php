@@ -16,12 +16,22 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <x-header-debt-list>
+                        <x-slot:clearButton>
+                            <form action="{{ route('debt-list.deleteByDebtorId') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="seller_id" value="{{$debtList[0]->seller->id}}">
+                                <input type="hidden" name="debtor_id" value="{{$debtList[0]->debtor->id}}">
+
+                                <x-primary-button>Tarixni tozalash</x-primary-button>
+                            </form>
+                        </x-slot:clearButton>
                         <x-slot:botton>
                             <form action="{{route('debt-list.create-form')}}" method="post">
                                 @csrf
-                                <input type="hidden" name="debtorId" value="{{$debtList[0]->debtor->id??''}}">
+                                <input type="hidden" name="debtorId" value="{{$debtList[0]->debtor->id}}">
                                 <input type="hidden" name="debtorName" value="{{$debtList[0]->debtor->name??''}}">
-                                <input type="hidden" name="sellerId" value="{{$debtList[0]->seller->id??''}}">
+                                <input type="hidden" name="sellerId" value="{{$debtList[0]->seller->id}}">
+                                <input type="hidden" name="total" value="{{$debtList[0]->debtor->total??''}}">
                                 <button type="submit"
                                         class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
                                     Yangi Hisobot
@@ -30,15 +40,17 @@
                         </x-slot:botton>
                         <x-slot:name>{{$debtList[0]->debtor->name??''}}</x-slot:name>
                         <x-slot:total>{{$debtList[0]->debtor->total??''}}</x-slot:total>
-                        @foreach($debtList as $debt)
-                            <x-debt-list>
-                                @php $date = $mainService->dateFormat($debt->created_at); @endphp
-                                <x-slot:created_at>{{$date??''}}</x-slot:created_at>
-                                <x-slot:debt_sum>{{$debt->debt_sum??''}}</x-slot:debt_sum>
-                                <x-slot:seller>{{$debt->seller->name??''}}</x-slot:seller>
-                                <x-slot:description>{{$debt->description??''}}</x-slot:description>
-                            </x-debt-list>
-                        @endforeach
+                        @if(isset($debtList))
+                            @foreach($debtList as $debt)
+                                <x-debt-list>
+                                    @php $date = $mainService->dateFormat($debt->created_at); @endphp
+                                    <x-slot:created_at>{{$date??''}}</x-slot:created_at>
+                                    <x-slot:debt_sum>{{$debt->debt_sum??''}}</x-slot:debt_sum>
+                                    <x-slot:seller>{{$debt->seller->name??''}}</x-slot:seller>
+                                    <x-slot:description>{{$debt->description??''}}</x-slot:description>
+                                </x-debt-list>
+                            @endforeach
+                        @endif
 
                     </x-header-debt-list>
 

@@ -4,6 +4,7 @@
             <h2 class="text-gray-600 font-semibold">Ismi:{{$name}}</h2>
             <h3>Jami:{{$total}} so'm</h3>
         </div>
+        @if($total == '0'){{$clearButton}} @endif
         <div class="flex items-center justify-between">
             <div class="lg:ml-40 ml-10 space-x-8">
 
@@ -41,6 +42,7 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     {{$slot}}
                     </tbody>
                 </table>

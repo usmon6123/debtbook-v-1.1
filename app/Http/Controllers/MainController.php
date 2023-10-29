@@ -14,8 +14,11 @@ class MainController extends Controller
 
     public function main()
     {
-        $_SESSION['search'] = 'no';
-        session_destroy();
+        if (isset($_SESSION)) {
+            $_SESSION['search'] = 'no';
+            session_destroy(); // Sessiyani o'chirish
+        }
+
 
         $debtors = User::orderBy('updated_at', 'desc')->paginate(12);
         return redirect('dashboard')->with('debtors', $debtors);

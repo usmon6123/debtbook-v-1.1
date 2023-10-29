@@ -3,6 +3,7 @@
 use App\Http\Controllers\DebtListController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,8 +24,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [MainController::class, 'main'])->name('main');
     Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
     Route::get('/search', [MainController::class, 'search'])->name('search');
-    Route::get('/debt-list/{id}',[DebtListController::class,'getId'])->name('debt-list.getId');
+    Route::get('/debt-lists/{id}',[DebtListController::class,'getId'])->name('debt-list.getId');
     Route::post('/debt-list',[DebtListController::class,'createForm'])->name('debt-list.create-form');
+    Route::post('/clear-history-by-id',[DebtListController::class,'deleteByDebtorId'])->name('debt-list.deleteByDebtorId');
+
+
+    Route::resource('/user', UserController::class);
     Route::resource('/debtbook',DebtListController::class);
 });
 
