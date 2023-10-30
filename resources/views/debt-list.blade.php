@@ -21,10 +21,12 @@
                                 @csrf
                                 <input type="hidden" name="seller_id" value="{{$debtList[0]->seller->id}}">
                                 <input type="hidden" name="debtor_id" value="{{$debtList[0]->debtor->id}}">
-
-                                <x-primary-button>Tarixni tozalash</x-primary-button>
+                                <button type="submit" onclick="return confirm('Bu mijozning tarixini o\'chirishga aminmisiz?')" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    Tarixni tozalash</button>
                             </form>
                         </x-slot:clearButton>
+
+
                         <x-slot:botton>
                             <form action="{{route('debt-list.create-form')}}" method="post">
                                 @csrf
@@ -54,12 +56,19 @@
 
                     </x-header-debt-list>
 
-                    <x-danger-button>
-                        <a href="{{route('dashboard')}}">Ortga</a>
-                    </x-danger-button>
+
+{{--                    <a href="{{route('dashboard')}}">--}}
+{{--                        <x-danger-button>--}}
+{{--                            Ortga--}}
+{{--                        </x-danger-button>--}}
+{{--                    </a>--}}
+
                 </div>
 
             </div>
         </div>
     </div>
 </x-app-layout>
+
+
+

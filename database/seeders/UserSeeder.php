@@ -40,6 +40,6 @@ class UserSeeder extends Seeder
             'phone_number'=>'+998902447682',
             'email'=>'debtor1@gmail.com'
         ]);
-        User::factory()->count(18)->create();
+        User::factory()->count(50)->create();
     }
 }

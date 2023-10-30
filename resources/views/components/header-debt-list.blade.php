@@ -2,11 +2,17 @@
     <div class=" flex items-center justify-between pb-6">
         <div>
             <h2 class="text-gray-600 font-semibold">Ismi:{{$name}}</h2>
-            <h3>Jami:{{$total}} so'm</h3>
+            <h3>Jami:{{number_format((string) $total, 0, '.', ' ')}} so'm</h3>
         </div>
         @if($total == '0'){{$clearButton}} @endif
-        <div class="flex items-center justify-between">
-            <div class="lg:ml-40 ml-10 space-x-8">
+        <div class="flex pt-2">
+                <a href="{{route('dashboard')}}">
+                    <x-danger-button class="mt-1">
+                        Ortga
+                    </x-danger-button>
+                </a>
+
+            <div class="lg:ml-10 ml-10 space-x-8">
 
                {{$botton}}
 

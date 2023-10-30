@@ -15,14 +15,14 @@
         <div class="mx-auto box-border w-[365px] border bg-white p-4">
             <div class="flex items-center justify-between">
                 <span class="text-[#64748B]">Amaliyot</span>
-                <span class="text-[#64748B]">Jami: {{$total}}</span>
+                <span class="text-[#64748B]">Jami: {{ number_format((string) $total, 0, '.', ' ') }}</span>
                 <a href="{{route('dashboard')}}">
-                <div class="cursor-pointer border rounded-[4px]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#64748B]" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </div>
+                    <div class="cursor-pointer border rounded-[4px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#64748B]" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
                 </a>
             </div>
 
@@ -43,7 +43,8 @@
                 <div class="mt-6">
                     <div class="font-semibold">Amaliyot turi</div>
                     <div class="mt-2">
-                        <select name="in_or_out" class="flex w-full items-center justify-between bg-neutral-100 p-3 rounded-[4px]">
+                        <select name="in_or_out"
+                                class="flex w-full items-center justify-between bg-neutral-100 p-3 rounded-[4px]">
 
                             <option value='1'>Qarz olyapdi</option>
                             <option value="0">Qarz to'layapdi</option>
@@ -54,7 +55,8 @@
                 <div class="mt-6">
                     <div class="">Qo'shimcha ma'lumot</div>
                     <label>
-                        <textarea name="description"  class="mt-1 w-full rounded-[4px] border border-[#A0ABBB] p-2" placeholder='yozish majburiymas'></textarea>
+                        <textarea name="description" class="mt-1 w-full rounded-[4px] border border-[#A0ABBB] p-2"
+                                  placeholder='yozish majburiymas'></textarea>
                     </label>
                 </div>
 

@@ -20,19 +20,24 @@ class MainController extends Controller
         }
 
 
-        $debtors = User::orderBy('updated_at', 'desc')->paginate(12);
+        $debtors = User::orderBy('updated_at', 'desc')->paginate(30);
         return redirect('dashboard')->with('debtors', $debtors);
     }
 
     public function dashboard()
     {
+        $total_debt_sum = User::sum('total');
+//        dd($total_debt_sum);
         return view('dashboard')->with([
-            'debtors' => User::where('role_id', 2)->orderBy('updated_at', 'desc')->paginate(10),
+            'debtors' => User::where('role_id', 2)->orderBy('updated_at', 'desc')->paginate(30),
+            'total_debt_sum'=>$total_debt_sum,
         ]);
     }
 
     public function search(Request $request)
     {
+        $total_debt_sum = User::sum('total');
+
         session_start();
         session(['search' => 'yes']);
         $_SESSION['search'] = 'yes';
@@ -45,6 +50,8 @@ class MainController extends Controller
             ->latest()->paginate(100);
         return view('dashboard')->with([
             'debtors' => $debtors,
+            'total_debt_sum'=>$total_debt_sum,
+
         ]);
     }
 
