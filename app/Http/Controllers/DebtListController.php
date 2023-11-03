@@ -2,32 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DebtList;
+use App\Interfaces\DebtListRepositoryInterface;
+use App\services\DebtListService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DebtListController extends Controller
 {
+    public function __construct(
+        protected DebtListRepositoryInterface $debtListRepository,
+        protected DebtListService             $debtListService
+    )
+    {
+    }
+
+    public function index()
+    {
+        $debtsList = $this->debtListRepository->allDebtListLatestPaginate(30);
+        return view('debtList.history')->with(['debtsList' => $debtsList ?? []]);
+    }
+
     public function getId($id)
     {
-
-        $debtList = DebtList::where('debtor_id', $id)->orderBy('updated_at', 'desc')->paginate(15);
-//        var_dump($debtList[0]->seller->id);
+        $debtList = $this->debtListRepository->getByDebtorIdlatestPaginate($id, 30);
         return view('debt-list')->with('debtList', $debtList);
     }
 
 
     public function createForm(Request $request)
     {
-//        dd($request);
-
         return view('debtList.create')->with([
             'debtor_id' => $request['debtorId'],
             'debtor_name' => $request['debtorName'],
-            'seller_id' => $request['sellerId'],
+            'seller_id' => auth()->user()->id,
             'total' => $request['total'],
         ]);
-
     }
 
     public function create()
@@ -37,74 +45,16 @@ class DebtListController extends Controller
 
     public function store(Request $request)
     {
-        $sum = $request['debt_sum'];
-        if ($request['in_or_out'] == 1) {
-            $sum = -1 * abs($request['debt_sum']);
-        }
-        DebtList::create([
-            'debtor_id' => $request['debtor_id'],
-            'debt_sum' => $sum,
-            'in_or_out' => $request['in_or_out'],
-            'seller_id' => $request['seller_id'],
-            'description' => $request['description'],
-        ]);
-//        DB::table('debt_lists')->insert([
-//            'debtor_id' => $request['debtor_id'],
-//            'debt_sum' => $sum,
-//            'in_or_out' => $request['in_or_out'],
-//            'seller_id' => (int)$request['seller_id'],
-//            'description' => $request['description'],
-//            'created_at' => now(),
-//            'updated_at' => now(),
-//        ]);
+        $this->debtListService->add($request['debtor_id'], $request['debt_sum'], $request['in_or_out'], $request['seller_id'], $request['description'] ?? '',);
+        $this->debtListRepository->updateTotalByDebtorId($request['debtor_id']);
+        return redirect()->route('debt-list.getId', ['id' => $request['debtor_id']]);
 
-        $this->updateTotalByDebtorId($request['debtor_id']);
-        return redirect()->route('debt-list.getId',['id'=>$request['debtor_id']]);
-
-//        return redirect('dashboard');
     }
 
     public function deleteByDebtorId(Request $request)
     {
-        $this->clearHistory($request['debtor_id']);
+        $this->debtListService->deleteByDebtorId($request['debtor_id'], $request['seller_id'], $request['debt_sum']);
 
-
-        DebtList::create([
-            'debtor_id' => $request['debtor_id'],
-            'debt_sum' => 0,
-            'in_or_out' => false,
-            'seller_id' => $request['seller_id'],
-            'description' =>  "mijoz eski barcha qarzlarini hisoblashdi!",
-        ]);
-
-        $this->updateTotalByDebtorId($request['debtor_id']);
         return redirect()->back();
-
-//        dd($request['debtor_id']);
-
     }
-
-
-    public function clearHistory($debtorId)
-    {
-        DebtList::where('debtor_id', $debtorId)->delete();
-
-    }
-
-    public function updateTotalByDebtorId($debtorId)
-    {
-        $a1 = DB::table('users as u')
-            ->select('u.id', DB::raw('SUM(d.debt_sum) as total'))
-            ->join('debt_lists as d', 'u.id', '=', 'd.debtor_id')
-            ->groupBy('u.id');
-
-        $userId = $debtorId; // O'zgartirish kerak bo'lgan foydalanuvchi ID-sini yozing
-
-        $newTotal = DB::table($a1, 'a1')->where('id', $userId)->value('total') ?? 0;
-        DB::table('users')
-            ->where('id', $userId)
-            ->update(['total' => $newTotal, 'updated_at' => now()]);
-
-    }
-
 }

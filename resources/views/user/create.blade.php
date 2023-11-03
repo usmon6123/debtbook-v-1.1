@@ -26,11 +26,11 @@
 
 
         <div class="flex items-center justify-end mt-4">
-            <x-danger-button>
-                <a href="{{route('dashboard')}}">
+            <a href="{{route('dashboard')}}">
+                <x-danger-button>
                     Ortga
-                </a>
-            </x-danger-button>
+                </x-danger-button>
+            </a>
             <x-primary-button class="ml-4">
                 {{ __('Saqlash') }}
             </x-primary-button>

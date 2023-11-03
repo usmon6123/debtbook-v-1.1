@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\DebtList;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -36,6 +37,15 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'role_id' => $request->role_id??2,
             'phone_number'=>'+998'.rand(100000000,999999999),
+            'description'=>"Register orqali qo'shilgan mijoz"
+        ]);
+
+        DebtList::create([
+            'debtor_id' => $user->id,
+            'debt_sum' => 0,
+            'in_or_out' => false,
+            'seller_id' => 1,
+            'description' => "Yangi qarzdor",
         ]);
 
         event(new Registered($user));

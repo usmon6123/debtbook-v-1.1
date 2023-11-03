@@ -6,17 +6,18 @@
         </div>
         @if($total == '0'){{$clearButton}} @endif
         <div class="flex pt-2">
-                <a href="{{route('dashboard')}}">
-                    <x-danger-button class="mt-1">
-                        Ortga
-                    </x-danger-button>
-                </a>
+
 
             <div class="lg:ml-10 ml-10 space-x-8">
 
                {{$botton}}
 
             </div>
+            <a href="{{route('dashboard')}}" class="ml-3">
+                <x-danger-button class="mt-1">
+                    Ortga
+                </x-danger-button>
+            </a>
         </div>
     </div>
     <div>

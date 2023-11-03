@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DebtList;
-use App\Models\User;
+use App\Repositories\UserRepository;
+use App\services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct(
+        protected UserRepository $userRepository,
+        protected UserService    $userService,
+    )
+    {
+    }
 
     public function create()
     {
@@ -17,42 +22,14 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        if (!isset($request->old_user_id)) {
-//            dd($request);
-            $user = User::create([
-                'name' => $request->name,
-                'password' => Hash::make($request->phone_number),
-                'email' => fake()->email(),
-                'role_id' => 2,
-                'phone_number' => $request->phone_number,
-                'description' => $request->description,
-            ]);
-
-            DebtList::create([
-                'debtor_id' => $user->id,
-                'debt_sum' => 0,
-                'in_or_out' => false,
-                'seller_id' => $request['seller_id'],
-                'description' => "Yangi qarzdor",
-            ]);
-        } else {
-            User::where('id', $request->old_user_id)
-                ->update([
-                    'name' => $request->name,
-                    'phone_number' => $request->phone_number,
-                    'description' => $request->description
-                ]);
-
-
-        }
+        $this->userService->addOrUpdateDebtor($request->old_user_id ?? '', $request->name, $request->password ?? '', fake()->email(), 2, $request->phone_number, $request->description ?? '', $request->seller_id);
 
         return redirect()->route('dashboard');
     }
 
     public function edit($id)
     {
-        $user = User::where('id', $id)->get()->first();
-//dd($user);
+        $user = $this->userRepository->getUserById($id);
         if (isset($user))
             return view('user.create', ['user' => $user]);
         else return redirect()->route('dashboard');
@@ -60,25 +37,17 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        $user = User::where('id', $request->old_user_id)->get()->first();
+        $user = $this->userRepository->getUserById($request->old_user_id);
 
         if (isset($user)) {
-            User::update([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'description' => $request->description,
-            ]);
+            $this->userRepository->userUpdate($user->id, $request->name, $request->phone_number, $request->description ?? '',);
         }
         return redirect()->back();
     }
 
     public function destroy($id)
     {
-        $user = User::find($id);
-
-        if ($user && $user->total == '0') {
-            $user->delete();
-        }
+        $this->userService->deleteUser($id);
         return redirect()->route('dashboard');
     }
 

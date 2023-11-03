@@ -10,7 +10,7 @@ class DebtList extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['debtor_id','debt_sum','in_or_out','seller_id','description'];
+    protected $fillable = ['debtor_id','debt_sum','in_or_out','seller_id','description','debtor'];
 
     public function debtor(){return $this->belongsTo(User::class);}
     public function seller(){return $this->belongsTo(User::class);}

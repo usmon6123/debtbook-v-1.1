@@ -2,56 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Interfaces\UserRepositoryInterface;
+use App\services\MainService;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index()
+    public function __construct(
+        protected MainService             $mainService,
+        protected UserRepositoryInterface $userRepository)
     {
-        echo 'index';
     }
+
 
     public function main()
     {
-        if (isset($_SESSION)) {
-            $_SESSION['search'] = 'no';
-            session_destroy(); // Sessiyani o'chirish
-        }
+        $debtors = $this->mainService->allDebtorsLatestPaginate(30);
 
-
-        $debtors = User::orderBy('updated_at', 'desc')->paginate(30);
         return redirect('dashboard')->with('debtors', $debtors);
     }
 
     public function dashboard()
     {
-        $total_debt_sum = User::sum('total');
-//        dd($total_debt_sum);
+        //BARCHA QARZDORLAR VA JAMI QARZDORLIK SUMMASINI DASHBORDGA BERIB YUBORYAPMIZ
         return view('dashboard')->with([
-            'debtors' => User::where('role_id', 2)->orderBy('updated_at', 'desc')->paginate(30),
-            'total_debt_sum'=>$total_debt_sum,
+            'debtors' => $this->userRepository->getAllDebtorsLatestPaginate(30),
+            'total_debt_sum' => $this->userRepository->allDebtorsDebt(),
         ]);
     }
 
     public function search(Request $request)
     {
-        $total_debt_sum = User::sum('total');
-
-        session_start();
-        session(['search' => 'yes']);
-        $_SESSION['search'] = 'yes';
         $str = $request['str'] ?? '';
-        $debtors = User::where('role_id', 2)
-            ->where(function ($query) use ($str) {
-                $query->where('phone_number', 'like', "%$str%")
-                    ->orWhere('name', 'like', "%$str%");
-            })
-            ->latest()->paginate(100);
+
+        //REQUESTDA KELGAN TEXTNI USERNING ISMI IDSI VA RAQAMI ORQALI BAZADAN SEARCH QILIB TO'PLAB PAGE QILIB OLIB KELADI
+        $debtors = $this->mainService->getDebtorsPaginateByStr($str, 100);
+
+        //BARCHANING QARZLARINI TO'PLAB KELADI
+        $total_debt_sum = $this->userRepository->allDebtorsDebt();
+
         return view('dashboard')->with([
             'debtors' => $debtors,
-            'total_debt_sum'=>$total_debt_sum,
-
+            'total_debt_sum' => $total_debt_sum,
         ]);
     }
 
