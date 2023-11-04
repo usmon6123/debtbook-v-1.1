@@ -14,11 +14,13 @@ The PROJECT includes the following
 - view the total debts of all debtors in the store and the total amount given by the store for debtors
 - Every operation is recorded and protected from external attacks
 
+## project presentation
+[![Qarz daftarchasi Taqdimot](https://www.youtube.com/watch?v=UtcIxZPaG0w)](https://www.youtube.com/watch?v=UtcIxZPaG0w)
 
 ## database schema
 ![debtbook_schema.png](debtbook_schema.png)
 
-* total (default 0) - the debtor's total debt
+* total - the debtor's total debt
 * debt_sum - amount in debt process
 * seller_id - service salesperson ID
 * in_our_out(boolean) - if borrowed => true, if the debt is paid => falsa
@@ -57,5 +59,3 @@ php artisan serve
   password: access
 
 
-## project presentation
-[![]()]()

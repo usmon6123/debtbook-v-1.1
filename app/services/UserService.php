@@ -2,6 +2,7 @@
 
 namespace App\services;
 
+use App\Interfaces\DebtListRepositoryInterface;
 use App\Repositories\DebtListRepository;
 use App\Repositories\UserRepository;
 
@@ -9,7 +10,7 @@ class UserService
 {
     public function __construct(
         protected UserRepository     $userRepository,
-        protected DebtListRepository $debtListRepository,
+        protected DebtListRepositoryInterface $debtListRepository,
     )
     {
     }
@@ -39,6 +40,7 @@ class UserService
 
         if ($user && $user->total == '0') {
             $user->delete();
+            $this->debtListRepository->deletedByDebtorId($id);
         }
     }
 

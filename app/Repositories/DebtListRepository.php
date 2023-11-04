@@ -61,4 +61,11 @@ class DebtListRepository implements DebtListRepositoryInterface
     {
         return DebtList::where('debtor_id', $debtor_id)->delete();
     }
+
+
+    public function deletedByDebtorId($id)
+    {
+        return DebtList::where('debtor_id', $id)->update(['deleted_at' => now('Asia/Tashkent')]);
+
+    }
 }

@@ -16,6 +16,7 @@
 {{--                            @dd($debtList)--}}
                             <form action="{{ route('debt-list.deleteByDebtorId') }}" method="post">
                                 @csrf
+
                                 <input type="hidden" name="seller_id" value="{{$debtList[0]->seller->id}}">
                                 <input type="hidden" name="debtor_id" value="{{$debtList[0]->debtor->id}}">
                                 <input type="hidden" name="debt_sum" value="{{$debtList[0]->debt_sum}}">

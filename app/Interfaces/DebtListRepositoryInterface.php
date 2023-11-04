@@ -15,5 +15,7 @@ interface DebtListRepositoryInterface{
 
     public function clearHistory(int $debtor_id);
 
+    public function deletedByDebtorId($id);
+
 
 }
