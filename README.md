@@ -58,4 +58,5 @@ php artisan serve
   login: seller3@gmail.com<br>
   password: access
 
-
+### .env
+* DB_DATABASE=debtbook
